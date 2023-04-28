@@ -13,7 +13,7 @@ See setup instructions in comments below
 mkdir -p /local/demo/
 cd /local/demo/
 # Use git to clone this repo to your local directory
-git clone https://github.com/stratusjerry/docker-saltstack.git
+git clone https://github.com/gurujerry/ccbc.git
 cd /local/demo/docker-saltstack
 # Start the salt master and minion containers (this may take several minutes to provision)
 docker-compose up -d
