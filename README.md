@@ -36,7 +36,12 @@ From within the salt-master, you can run salt commands like
 ```bash
 # Run a salt 'ping' test on all minions
 salt '*' test.ping
-
+# Run a command on all web servers, list 'ls -alh /tmp/'
+salt 'web*' cmd.run 'ls -alh /tmp/'
+# Use the salt 'pkg' module to list all software packages installed on the (2) database servers
+salt 'db*' pkg.list_pkgs
+# List all the grains on 'db-01'
+salt 'db-01' grains.items
 # Feel free to run more salt master commands on minions 
 #   and when finished, exit the salt master container with the
 #   exit command
