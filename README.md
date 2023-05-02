@@ -1,10 +1,13 @@
 # docker-saltstack
 Docker Compose setup to create a salt master and several minions.
 
-# Pre-Reqs
+# Pre-Requisites
 You will need Docker and Docker Compose installed to use this project.  See Linux instructions for installing [Docker](https://docs.docker.com/engine/install/#server) and [Docker Compose](https://docs.docker.com/compose/install/linux/). If using Mac or Windows, use [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
-Additionally, you will need [git](https://github.com/git-guides/install-git) installed.
+Additionally, to download this repo, you will either need to:
+- Install [git](https://github.com/git-guides/install-git) and `git clone` this repo
+Or
+- Download this repo as a zip file and extract it
 
 # Setup
 See setup instructions in comments below
@@ -12,9 +15,14 @@ See setup instructions in comments below
 # Create a directory on your machine to clone this repo to
 mkdir -p /local/demo/
 cd /local/demo/
-# Use git to clone this repo to your local directory
+# Either Use git to clone this repo OR download and unzip this repo to your local directory
+## Git Clone method
 git clone https://github.com/gurujerry/ccbc.git
-cd /local/demo/docker-saltstack
+cd /local/demo/ccbc
+## Download and extract
+wget https://github.com/gurujerry/ccbc/archive/refs/heads/master.zip
+unzip master.zip
+cd /local/demo/ccbc-master/
 # Start the salt master and minion containers (this may take several minutes to provision)
 docker-compose up -d
 ```
@@ -28,6 +36,7 @@ From within the salt-master, you can run salt commands like
 ```bash
 # Run a salt 'ping' test on all minions
 salt '*' test.ping
+
 # Feel free to run more salt master commands on minions 
 #   and when finished, exit the salt master container with the
 #   exit command
