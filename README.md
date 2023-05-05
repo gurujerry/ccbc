@@ -42,6 +42,20 @@ salt 'web*' cmd.run 'ls -alh /tmp/'
 salt 'db*' pkg.list_pkgs
 # List all the grains on 'db-01'
 salt 'db-01' grains.items
+# Find a specific grain on all minions
+salt '*' grains.item os_family
+# Find one or more grains on minion 'db-01'
+salt 'db-01' grains.item osfullname osrelease
+# Now let's look at state
+# Show (but do not apply) what the nginx state would perform if
+#   installed on 'web-01'
+salt 'web-01' state.show_sls nginx
+# Show what the high state would perform on 'web-02'
+salt 'web-02' state.show_highstate
+# Apply the nginx state to 'web-02'
+salt 'web-02' state.apply nginx
+# Now we should be able to curl 'web-02' and see the contents of index.html
+curl http://web-02
 # Feel free to run more salt master commands on minions 
 #   and when finished, exit the salt master container with the
 #   exit command
@@ -58,13 +72,9 @@ docker-compose stop
 docker-compose down --rmi -v
 ```
 
-
-
-Note: you will see log messages like : "Could not determine init system from command line" - those are just because salt is running in the foreground and not from an auto-startup.
-
-The salt-master is set up to accept all minions that try to connect.  Since the network that the salt-master sees is only the docker-compose network, this means that only minions within this docker-compose service network will be able to connect (and not random other minions external to docker).
-
 # Debugging
+> salt-master is set to accept all minions that try to connect.  Salt master and minions are on the docker-compose network, so no minions outside the docker network will be able to connect
+
 ```bash
 # Render Output, good for testing YAML anchors
 docker-compose config > ./testing/render.yml

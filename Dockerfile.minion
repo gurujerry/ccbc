@@ -1,17 +1,14 @@
-FROM ubuntu:18.04
-#FROM ubuntu:22.04
+FROM ubuntu:22.04
 
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 RUN apt-get update -y && \
-    apt-get install apt-utils wget curl gnupg -y && \
+    apt-get install apt-utils curl gnupg -y && \
     apt-get clean all
-RUN wget -q https://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest/SALTSTACK-GPG-KEY.pub && \
-    apt-key add SALTSTACK-GPG-KEY.pub && \
-    rm SALTSTACK-GPG-KEY.pub
-RUN echo "deb http://repo.saltstack.com/py3/ubuntu/18.04/amd64/latest bionic main" > /etc/apt/sources.list.d/saltstack.list
-#RUN curl -fsSL --insecure -o /etc/apt/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3005/salt-archive-keyring.gpg && \
-#    echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3005 jammy main" > /etc/apt/sources.list.d/salt.list
+
+RUN curl -fsSL --insecure -o /etc/apt/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3005/salt-archive-keyring.gpg && \
+    echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/3005 jammy main" > /etc/apt/sources.list.d/salt.list
+
 RUN apt-get update -y && \
     apt-get install salt-minion salt-ssh -y && \
     apt-get clean all

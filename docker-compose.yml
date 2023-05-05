@@ -12,6 +12,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.master
+    volumes:
+      - ./states:/srv/salt  # Mounts local docker volume with salt state versus Dockerfile COPY
   db-01:
     hostname: db-01
     <<: *common-minion
