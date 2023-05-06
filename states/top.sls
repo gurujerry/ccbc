@@ -1,4 +1,4 @@
-# This is the high state. If a minion matches the grains, the state(s) will be ran
+# This is the high state. If a minion matches the grains, the state(s) under it will be ran
 base:
   'S@172.0.0.0/8 and G@kernel:Linux': # Linux VMs
     - match: compound

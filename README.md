@@ -74,9 +74,3 @@ docker-compose down --rmi -v
 
 # Debugging
 > salt-master is set to accept all minions that try to connect.  Salt master and minions are on the docker-compose network, so no minions outside the docker network will be able to connect
-
-```bash
-# Render Output, good for testing YAML anchors
-docker-compose config > ./testing/render.yml
-
-```

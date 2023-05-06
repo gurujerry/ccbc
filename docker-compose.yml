@@ -1,12 +1,5 @@
 version: '3.7'
 
-x-common-minion: &common-minion
-    build:
-      context: .
-      dockerfile: Dockerfile.minion
-    depends_on:
-      - salt-master
-
 services: 
   salt-master:
     build:
@@ -16,19 +9,43 @@ services:
       - ./states:/srv/salt  # Mounts local docker volume with salt state versus Dockerfile COPY
   db-01:
     hostname: db-01
-    <<: *common-minion
+    build:
+      context: .
+      dockerfile: Dockerfile.minion
+    depends_on:
+      - salt-master
   db-02:
     hostname: db-02
-    <<: *common-minion
+    build:
+      context: .
+      dockerfile: Dockerfile.minion
+    depends_on:
+      - salt-master
   dns-01:
     hostname: dns-01
-    <<: *common-minion
+    build:
+      context: .
+      dockerfile: Dockerfile.minion
+    depends_on:
+      - salt-master
   dns-02:
     hostname: dns-02
-    <<: *common-minion
+    build:
+      context: .
+      dockerfile: Dockerfile.minion
+    depends_on:
+      - salt-master
   web-01:
     hostname: web-01
-    <<: *common-minion
+    build:
+      context: .
+      dockerfile: Dockerfile.minion
+    depends_on:
+      - salt-master
   web-02:
     hostname: web-02
-    <<: *common-minion
+    build:
+      context: .
+      dockerfile: Dockerfile.minion
+    depends_on:
+      - salt-master
