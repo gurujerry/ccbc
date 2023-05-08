@@ -93,8 +93,9 @@ To stop the running containers:
 cd /local/demo/docker-saltstack
 # Run the command below to stop the running containers
 docker compose stop
-# If you wish to permanently delete the containers and their base image, run the command
+# If you wish to permanently delete the containers and their base image, run the commands
 docker compose down --rmi local -v
+docker builder prune --all
 ```
 
 # Debugging
