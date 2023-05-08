@@ -98,5 +98,12 @@ docker compose down --rmi local -v
 docker builder prune --all
 ```
 
+# Relevant Links
+Links from the Salt Slides:
+- [Salt Documentation](https://docs.saltproject.io/)
+- [Salt Source Code](https://github.com/saltstack/salt)
+- [salt-winrepo-ng](https://github.com/saltstack/salt-winrepo-ng)
+- [saltstack-formulas](https://github.com/saltstack-formulas)
+
 # Debugging
 > salt-master is set to accept all minions that try to connect.  Salt master and minions are on the docker compose network, so no minions outside the docker network will be able to connect
