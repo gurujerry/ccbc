@@ -16,4 +16,3 @@ RUN apt-get update -y && \
 RUN sed -i "s|#master: salt|master: salt-master|g" /etc/salt/minion
 
 ENTRYPOINT ["salt-minion", "-l", "debug"]
-

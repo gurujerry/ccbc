@@ -9,6 +9,8 @@ Additionally, to download this repo, you will either need to:
 Or
 - Download this repo as a zip file and extract it
 
+> Note: Older versions of docker compose will use the `docker-compose` command versus the newer `docker compose` command
+
 # Setup
 See setup instructions in comments below
 ```bash
@@ -24,12 +26,12 @@ wget https://github.com/gurujerry/ccbc/archive/refs/heads/master.zip
 unzip master.zip
 cd /local/demo/ccbc-master/
 # Start the salt master and minion containers (this may take several minutes to provision)
-docker-compose up -d
+docker compose up -d
 ```
 
 Once the containers have started, you can log into the command line of the salt-master server by running
 ```bash
-docker-compose exec salt-master bash
+docker compose exec salt-master bash
 ```
 
 From within the salt-master, you can run salt commands like
@@ -44,9 +46,10 @@ salt 'db*' pkg.list_pkgs
 salt 'db-01' grains.items
 # Find a specific grain on all minions
 salt '*' grains.item os_family
+salt '*' grains.item ip_interfaces
 # Find one or more grains on minion 'db-01'
 salt 'db-01' grains.item osfullname osrelease
-# Now let's look at state
+# Previous commands used the salt execution module, Now let's look at the state module!
 # Show (but do not apply) what the nginx state would perform if
 #   installed on 'web-01'
 salt 'web-01' state.show_sls nginx
@@ -67,10 +70,10 @@ To stop the running containers:
 # Make sure you are in the directory the 
 cd /local/demo/docker-saltstack
 # Run the command below to stop the running containers
-docker-compose stop
+docker compose stop
 # If you wish to permanently delete the containers and there base image, run the command
-docker-compose down --rmi -v
+docker compose down --rmi -v
 ```
 
 # Debugging
-> salt-master is set to accept all minions that try to connect.  Salt master and minions are on the docker-compose network, so no minions outside the docker network will be able to connect
+> salt-master is set to accept all minions that try to connect.  Salt master and minions are on the docker compose network, so no minions outside the docker network will be able to connect
