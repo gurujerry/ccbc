@@ -4,9 +4,9 @@ install_postgres:
   pkg.installed:
     - name: postgresql
 
-#postgres_service:
-#  service.running:
-#    - name: postgresql
-#    - enable: True
-#    - require:
-#      - pkg: install_postgres
+postgres_service:
+  service.running:
+    - name: postgresql
+    - enable: True
+    - require:
+      - pkg: install_postgres

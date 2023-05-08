@@ -36,10 +36,12 @@ docker compose exec salt-master bash
 
 From within the salt-master, you can run salt commands like
 ```bash
+# Let's verify we are in the salt master by running 'hostname'
+hostname
 # Run a salt 'ping' test on all minions
 salt '*' test.ping
-# Run a command on all web servers, list 'ls -alh /tmp/'
-salt 'web*' cmd.run 'ls -alh /tmp/'
+# Run a command on all (2) web servers, list 'ls -alh /etc/'
+salt 'web*' cmd.run 'ls -alh /etc/'
 # Use the salt 'pkg' module to list all software packages installed on the (2) database servers
 salt 'db*' pkg.list_pkgs
 # List all the grains on 'db-01'
@@ -49,16 +51,36 @@ salt '*' grains.item os_family
 salt '*' grains.item ip_interfaces
 # Find one or more grains on minion 'db-01'
 salt 'db-01' grains.item osfullname osrelease
+# We might use a salt execution module, if a software update comes out for a package like 'openssl' and
+#   we need to determine what version our servers are running:
+salt '*' pkg.version openssl
+# We could even pro-actively check if an update is availabe for 'openssl'
+salt '*' pkg.upgrade_available openssl
+# At any point, we can see the list of previously ran jobs on the salt master with the command:
+salt-run jobs.list_jobs
 # Previous commands used the salt execution module, Now let's look at the state module!
+# We can view the salt states available on the master with the command
+salt-run fileserver.file_list
+# In a text editor like vscode we can see that these folders/files are the same as the contents
+#   of this repos "states/" folder. This is because we mount the folder into the salt-master
+# Show (but do not apply) the high state on 'dns-01'
+salt 'dns-01' state.show_highstate
+# Apply the high state (if it has not already run) on 'dns-01'
+salt 'dns-01' state.apply
 # Show (but do not apply) what the nginx state would perform if
 #   installed on 'web-01'
 salt 'web-01' state.show_sls nginx
-# Show what the high state would perform on 'web-02'
-salt 'web-02' state.show_highstate
 # Apply the nginx state to 'web-02'
 salt 'web-02' state.apply nginx
 # Now we should be able to curl 'web-02' and see the contents of index.html
 curl http://web-02
+# Let's take a look at the 'postgres' state and apply it to our database servers
+salt 'db*' state.apply postgres
+# Looking at our text editor, we can see a 'win_update' state, what happens if we 
+#  try to apply that to a Linux host?
+salt 'db-01' state.apply win_update
+# We should see an error 'The shell powershell is not available'. To prevent this, we 
+#   could add JINJA logic to check that the minion is a Windows Host before executing the state
 # Feel free to run more salt master commands on minions 
 #   and when finished, exit the salt master container with the
 #   exit command
